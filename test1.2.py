@@ -9,7 +9,7 @@ import time
 N = 2048  # 样本点数
 T = 1.0   # 信号持续时间
 f0 = 1    # 基频
-harmonics = [1, 3, 5, 20, 50]  # 用于重建的谐波
+harmonics = [1, 3, 5, 20, 50]  # 用于 Fourier 重建的谐波
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # ----------------------------
@@ -33,7 +33,7 @@ def square_wave_fourier_torch(t, N_harmonics):
 # 3. PyTorch GPU naive DFT
 # ----------------------------
 def naive_dft_torch(x):
-    x = x.to(device)
+    x = x.to(device).to(torch.complex64)  # 转复数类型
     N = x.shape[0]
     n = torch.arange(N, device=device).reshape(1, N)
     k = torch.arange(N, device=device).reshape(N, 1)
@@ -50,7 +50,7 @@ t = torch.tensor(t_np, dtype=torch.float32, device=device)
 # 生成信号
 # ----------------------------
 square_torch = square_wave_torch(t)
-square_fourier_torch = square_wave_fourier_torch(t, harmonics[-1])  # 用最大谐波数
+square_fourier_torch = square_wave_fourier_torch(t, harmonics[-1])  # 最大谐波数
 
 # ----------------------------
 # 计时比较
@@ -63,7 +63,7 @@ time_dft_torch = end - start
 
 # PyTorch 内置 FFT
 start = time.time()
-fft_torch = torch.fft.fft(square_fourier_torch)
+fft_torch = torch.fft.fft(square_fourier_torch.to(torch.complex64))
 end = time.time()
 time_fft_torch = end - start
 
