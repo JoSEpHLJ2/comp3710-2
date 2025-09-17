@@ -12,3 +12,12 @@ cd：cd ~/unet_project
 cd ~/cifar10_dawnbench
 激活环境：conda activate torch_3710_py310
 连接到学校：ssh s4908583@rangpur.compute.eait.uq.edu.au	
+4.1/opt/miniconda3/envs/torch_3710_py310/bin/python vae_oasis.py \
+    --data-dir /Users/jian/3710-1/keras_png_slices_data \
+    --mode png \
+    --out-dir /Users/jian/3710-1/outputs \
+    --epochs 5 \
+    --batch-size 32 \
+    --latent-dim 2 \
+    --resize 64 \
+    --mode-run train
