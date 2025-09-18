@@ -21,3 +21,4 @@ cd ~/cifar10_dawnbench
     --latent-dim 2 \
     --resize 64 \
     --mode-run train
+4.3： python gan_train.py
